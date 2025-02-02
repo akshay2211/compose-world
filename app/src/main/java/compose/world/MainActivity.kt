@@ -8,6 +8,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
@@ -45,6 +46,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import compose.world.composables.highlightable.InstagramHomePage
+import compose.world.composables.reorderable_lazy_list_v3.ExampleUsage
 import compose.world.ui.theme.ComposeWorldTheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -54,84 +57,11 @@ import kotlinx.coroutines.flow.update
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        enableEdgeToEdge()
-        val list = listOf(1,2,3)
-        list.fastForEach {
+        enableEdgeToEdge()
 
-        }
 
         setContent {
-            var isVisible by remember {
-                mutableStateOf(true)
-            }
-
-            Scaffold (
-                bottomBar = {
-                    if (isVisible) {
-                        Snackbar(
-                            dismissAction = {
-                                Text(
-                                    modifier = Modifier.clickable {
-                                        isVisible = false
-                                    },
-                                    text = "Dismiss"
-                                )
-                            },
-
-                            ) {
-                            Text(
-                                text = "Salam!"
-                            )
-                        }
-                    }
-                }
-            ) {
-                Text(modifier = Modifier.padding(it),text ="Main content!")
-            }
+            InstagramHomePage()
         }
-
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(this, AlarmBroadcastReceived::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(
-            this,
-            0,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-
-        val triggerTime = System.currentTimeMillis() + 15 * 1000 // 15 seconds
-        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent)
-        println("ALARM REGISTEREDDDD!!!!")
-
-    }
-}
-
-class AlarmBroadcastReceived : BroadcastReceiver() {
-    override fun onReceive(context: Context?, intent: Intent?) {
-        println("Alarm received!")
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Box(modifier = Modifier.fillMaxSize()) {
-        TextField(
-            modifier = Modifier.pointerInput(Unit) {
-                detectDragGestures { change, dragAmount ->
-                    println("Drag amount: ${dragAmount.y}")
-                }
-            },
-            value = "hi!",
-            onValueChange = {}
-        )
     }
 }
