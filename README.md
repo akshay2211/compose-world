@@ -10,3 +10,6 @@
 
 ## 3. Diagonal transition
 ![diagonal_transition-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/082994a0-1662-4fd9-a79f-02ccf6db0167)
+
+## 4. Circular timer
+![timer-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/1af1c9df-3188-497b-be19-bdb66258b5d8)
