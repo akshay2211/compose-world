@@ -1,19 +1,26 @@
 package compose.world.composables.reorderable_lazy_list_v3
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.zIndex
 
 /**
@@ -73,32 +80,36 @@ import androidx.compose.ui.zIndex
 fun <T> ReorderableLazyList(
     modifier: Modifier = Modifier,
     items: List<ReorderableItem<T>>,
-    content: @Composable (index: Int, T) -> Unit
+    content: @Composable (listIndex: Int, data: T, order: Int) -> Unit
 ) {
-    val listState = rememberLazyListState()
     var draggedItemListIndex by remember { mutableStateOf<Int?>(null) }
+    var lastDraggedItemListIndex by remember { mutableStateOf<Int?>(null) }
+    var itemSize = remember { 0 }
 
-    LazyColumn(
-        modifier = modifier,
-        state = listState
+    Column(
+        modifier = modifier
     ) {
-        itemsIndexed(items = items, key = { _, item -> item.lazyListIndex }) { index, item ->
+        items.forEachIndexed { index, item ->
             val zIndexModifier = (if (index == draggedItemListIndex) {
                 Modifier.zIndex(10f)
             } else Modifier)
 
+            val animatedDrag by animateFloatAsState(item.dragAmount.toFloat())
+
             val dragModifier = Modifier
                 .then(zIndexModifier)
-                .graphicsLayer { translationY = item.dragAmount.toFloat() }
+                .graphicsLayer {
+                    translationY = if (draggedItemListIndex == null) animatedDrag else item.dragAmount.toFloat()
+                }
                 .pointerInput(Unit) {
-                    var itemSize = 0
                     detectDragGestures(
                         onDragStart = {
-                            itemSize = listState.layoutInfo.visibleItemsInfo.first().size
+                            lastDraggedItemListIndex = index
                             draggedItemListIndex = index
                         },
                         onDrag = { _, dragAmountPerFrame ->
                             item.dragBy(amount = dragAmountPerFrame.y.toInt())
+                            println("BUG - dragging index: ${item.lazyListIndex}, artificial index: ${item.artificialIndex}")
 
                             if (dragAmountPerFrame.y > 0) {
                                 val downwardsDrag = dragAmountPerFrame.y.toInt()
@@ -153,11 +164,14 @@ fun <T> ReorderableLazyList(
                         },
                         onDragEnd = {
                             // Algorithm to ACTUALLY reorder items
+                            draggedItemListIndex = null
                             items.forEach {
+                                it.lazyListIndex
                                 it.snapToClosestIndex(itemSize)
                             }
                         },
                         onDragCancel = {
+                            draggedItemListIndex = null
                             items.forEach {
                                 it.snapToClosestIndex(itemSize)
                             }
@@ -166,9 +180,12 @@ fun <T> ReorderableLazyList(
                 }
 
             Box(
-                modifier = dragModifier
+                modifier = Modifier
+                    .onSizeChanged {
+                        itemSize = it.height
+                    }.then(dragModifier)
             ) {
-                content(index, item.data)
+                content(index, item.data, item.artificialIndex)
             }
         }
     }
@@ -180,7 +197,7 @@ fun <T> rememberReorderableLazyListItems(
     cannotGoBelowIndex: Int = 0,
     cannotGoAboveIndex: Int = items.lastIndex,
 ) : List<ReorderableItem<T>> {
-    return remember {
+    return remember (items.size) {
         items.mapIndexed { index, it ->
             ReorderableItem(
                 data = it,
