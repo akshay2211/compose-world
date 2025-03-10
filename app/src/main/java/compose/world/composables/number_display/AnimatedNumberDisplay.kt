@@ -1,4 +1,4 @@
-package compose.world.composables
+package compose.world.composables.number_display
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
