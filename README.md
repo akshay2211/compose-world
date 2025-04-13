@@ -1,8 +1,7 @@
 ### Custom components
 
 ## 7. Card swap
-![Card swap](https://github.com/user-attachments/assets/2d6ab8b1-5f80-4dd4-98f6-f7d7a609e5a1)
-
+![Card swap](https://github.com/user-attachments/assets/c3ebb0e3-636e-45f3-8e32-1dbfb2d20166)
 
 ## 6. Instagram comments section
 ![Comments section](https://github.com/user-attachments/assets/ba510617-aa98-4eea-8355-ada64f9924de)
