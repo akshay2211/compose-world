@@ -12,6 +12,7 @@ import androidx.compose.runtime.setValue
 import androidx.core.view.WindowCompat
 import compose.world.composables.shrink_layout.ShrinkLayoutExample
 import compose.world.composables.shrink_layout.InstagramDemo
+import compose.world.composables.swipe_refresh_lazy_column.SwipeRefreshLazyColumn
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,20 +22,7 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            Box {
-                var isVisible by remember { mutableStateOf(false) }
-                InstagramDemo(
-                    onCommentClicked = {
-                        isVisible = true
-                    }
-                )
-                ShrinkLayoutExample(
-                    isVisible = isVisible,
-                    onDismiss = {
-                        isVisible = false
-                    }
-                )
-            }
+            SwipeRefreshLazyColumn()
         }
     }
 }
