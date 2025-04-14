@@ -20,3 +20,6 @@
 
 ## 1. ReorderableList - v3
 ![Reorderable list](https://github.com/user-attachments/assets/de98142e-ec4a-4b08-9b79-633b193fa1d7)
+
+## 8. Scaling dots
+![document_5469895031915571661-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/b58cc393-3230-49c2-899e-66b090e75186)
