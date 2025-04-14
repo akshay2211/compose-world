@@ -51,7 +51,7 @@ fun CardSwap() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = 40.dp),
+            .padding(vertical = 340.dp),
         contentAlignment = Alignment.TopCenter
     ) {
 
