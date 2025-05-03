@@ -1,6 +1,7 @@
 package compose.world.composables.shrink_layout
 
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -191,19 +192,23 @@ fun DemoInstaCommentItem(
         )
         Spacer(modifier = Modifier.width(12.dp))
         Column {
-            Text(
-                text = item.username,
-                color = Color.White,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Medium
-            )
+            AnimatedContent(item.username) {
+                Text(
+                    text = it,
+                    color = Color.White,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium
+                )
+            }
             Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = item.comment,
-                color = Color.White,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Normal
-            )
+            AnimatedContent(item.comment) {
+                Text(
+                    text = it,
+                    color = Color.White,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Normal
+                )
+            }
             Spacer(modifier = Modifier.height(4.dp))
             Row(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)

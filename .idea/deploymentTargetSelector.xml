@@ -13,19 +13,19 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="AnimatedNumberPadPrev (1)">
+      <SelectionState runConfigName="CustomLazyColumnPrev (1)">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="AutoShrinkLayoutPrev">
+      <SelectionState runConfigName="LazyColumnWithRefreshPrev">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="MotionLikeScreenPrev">
+      <SelectionState runConfigName="IosStyleLazyColumnPrev">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="CardSwapPrev">
+      <SelectionState runConfigName="LazyColumnWithRefreshPrev (1)">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="GravitationPrev">
+      <SelectionState runConfigName="LazyColumnWithRefreshPrev (2)">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

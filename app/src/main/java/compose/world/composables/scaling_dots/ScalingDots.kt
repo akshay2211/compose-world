@@ -71,7 +71,6 @@ fun ScalingDots() {
 
                     val radius = circleRadius + (circleRadius * 2 - distanceFromTouch / 6 ).coerceAtLeast(0F)
                     val greenValue = ((255F - abs(distanceFromTouch)) / 255).coerceAtLeast(0F)
-                    println("GREEN VALUE: $greenValue")
 
                     drawCircle(
                         color = Color(red = greenValue / 2, green = greenValue, blue = greenValue / 2),
