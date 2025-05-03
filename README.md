@@ -1,7 +1,6 @@
 ### Custom components
 
-## 1. Card swap
-[Code here](https://github.com/faridGuliyew/compose-world/blob/main/app/src/main/java/compose/world/composables/card_swap/CardSwap.kt)
+## 1. [Card swap](https://github.com/faridGuliyew/compose-world/blob/main/app/src/main/java/compose/world/composables/card_swap/CardSwap.kt)
 ![Card swap](https://github.com/user-attachments/assets/c3ebb0e3-636e-45f3-8e32-1dbfb2d20166)
 
 ## 2. Drag to refresh with Lazy Column
