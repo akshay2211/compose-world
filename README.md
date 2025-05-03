@@ -4,7 +4,7 @@
 ![Card swap](https://github.com/user-attachments/assets/c3ebb0e3-636e-45f3-8e32-1dbfb2d20166)
 
 ## 2. Drag to refresh with Lazy Column
-![Drag to refresh](https://github.com/user-attachments/assets/50336707-cb51-48a0-98a4-79d70d067800)
+![Drag to refresh](https://github.com/user-attachments/assets/27d16719-17f2-4bcf-bd8f-6cdc945f2de7)
 
 ## 3. Instagram comments section
 ![Comments section](https://github.com/user-attachments/assets/ba510617-aa98-4eea-8355-ada64f9924de)
