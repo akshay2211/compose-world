@@ -6,6 +6,11 @@
 ## 2. [Drag to refresh with Lazy Column](https://github.com/faridGuliyew/compose-world/blob/main/app/src/main/java/compose/world/composables/custom_lazy_columns/LazyColumnWithRefresh.kt)
 ![Drag to refresh](https://github.com/user-attachments/assets/27d16719-17f2-4bcf-bd8f-6cdc945f2de7)
 
+## 3. [3D shapes without any library](https://github.com/faridGuliyew/compose-world/blob/main/app/src/main/java/compose/world/composables/rotating_cube/Rotating3DObjectUsageExample.kt)
+![3D shapes](https://github.com/user-attachments/assets/5ce1f220-5beb-4bdb-afc1-d6992b01a098)
+
+
+
 ## 3. [Instagram comments section](https://github.com/faridGuliyew/compose-world/blob/main/app/src/main/java/compose/world/composables/shrink_layout/BoxColumnLayout.kt)
 ![Comments section](https://github.com/user-attachments/assets/ba510617-aa98-4eea-8355-ada64f9924de)
 
