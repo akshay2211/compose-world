@@ -12,6 +12,9 @@
 ## 4. [Pattern lock](https://github.com/faridGuliyew/compose-world/blob/main/app/src/main/java/compose/world/composables/lock_screen/DotLockPattern.kt)
 ![Pattern lock](https://github.com/user-attachments/assets/f8ba4d52-b197-4581-9c15-072840a68bf5)
 
+# 5. [Rotary picker](https://github.com/faridGuliyew/compose-world/blob/main/app/src/main/java/compose/world/composables/knob_picker/KnobPickerUsageExample.kt)
+![Rotary picker](https://github.com/user-attachments/assets/9bceb2cc-9014-48de-a156-90ca12d7cc8a)
+
 ## 5. [Ios style picker](https://github.com/faridGuliyew/compose-world/blob/main/app/src/main/java/compose/world/composables/ios_style_picker/IOSStylePicker.kt)
 ![WhatsAppVideo2025-05-21at9 01 10PM-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/5c441eac-78a7-46fb-b59f-94dcb5eb9089)
 
