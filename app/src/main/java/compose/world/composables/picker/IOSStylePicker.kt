@@ -1,10 +1,9 @@
-package compose.world.composables.ios_style_picker
+package compose.world.composables.picker
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -121,7 +121,7 @@ fun IOSStylePicker(
 
 @Preview
 @Composable
-private fun IOSStylePickerPrev() {
+fun IOSStylePickerPrev() {
     // Sample data for the picker
     val items = (1..20).map { "Option $it" }
     var selectedItem by remember { mutableStateOf(items[0]) }
@@ -129,9 +129,10 @@ private fun IOSStylePickerPrev() {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .systemBarsPadding()
             .background(Color.White),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+//        verticalArrangement = Arrangement.Center
     ) {
         Text(
             text = "Selected: $selectedItem",
