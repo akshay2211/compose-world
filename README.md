@@ -12,6 +12,10 @@
 ## 4. [Pattern lock](https://github.com/faridGuliyew/compose-world/blob/main/app/src/main/java/compose/world/composables/lock_screen/DotLockPattern.kt)
 ![Pattern lock](https://github.com/user-attachments/assets/f8ba4d52-b197-4581-9c15-072840a68bf5)
 
+## 5. [Animated navigation drawer](https://github.com/faridGuliyew/compose-world/blob/main/app/src/main/java/compose/world/composables/animated_navigation_drawer)
+![Animated navigation drawer](https://github.com/user-attachments/assets/5bc76b9b-dbeb-4595-a9a2-f039266a5561)
+
+
 # 5. [Rotary picker](https://github.com/faridGuliyew/compose-world/blob/main/app/src/main/java/compose/world/composables/knob_picker/KnobPickerUsageExample.kt)
 ![Rotary picker](https://github.com/user-attachments/assets/9bceb2cc-9014-48de-a156-90ca12d7cc8a)
 
