@@ -56,3 +56,9 @@ val PoppinsFontFamily = FontFamily(
     Font(resId = R.font.poppins_black, weight = FontWeight.Black, style = FontStyle.Normal),
     Font(resId = R.font.poppins_blackitalic, weight = FontWeight.Black, style = FontStyle.Italic),
 )
+
+val SoraFontFamily = FontFamily(
+    Font(resId = R.font.sora_semibold, weight = FontWeight.SemiBold, style = FontStyle.Normal),
+    Font(resId = R.font.sora_regular, weight = FontWeight.Normal, style = FontStyle.Normal),
+    Font(resId = R.font.sora_thin, weight = FontWeight.Thin, style = FontStyle.Normal)
+)
