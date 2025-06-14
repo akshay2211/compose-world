@@ -12,6 +12,10 @@
 ## 4. [Pattern lock](https://github.com/faridGuliyew/compose-world/blob/main/app/src/main/java/compose/world/composables/lock_screen/DotLockPattern.kt)
 ![Pattern lock](https://github.com/user-attachments/assets/f8ba4d52-b197-4581-9c15-072840a68bf5)
 
+## 5. [Animated balance increase](https://github.com/faridGuliyew/compose-world/blob/main/app/src/main/java/compose/world/composables/animated_balance_increase/AnimatedBalanceIncrease.kt)
+![Screen_recording_20250614_185928-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/8f66d814-bd85-4627-aace-cc95aac0d084)
+
+
 ## 5. [Animated navigation drawer](https://github.com/faridGuliyew/compose-world/blob/main/app/src/main/java/compose/world/composables/animated_navigation_drawer)
 ![Animated navigation drawer](https://github.com/user-attachments/assets/5bc76b9b-dbeb-4595-a9a2-f039266a5561)
 
