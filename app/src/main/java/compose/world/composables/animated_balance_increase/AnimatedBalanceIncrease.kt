@@ -272,11 +272,12 @@ private fun TopSection(
 
 @Preview(showBackground = true)
 @Composable
-private fun AnimatedBalanceIncreasePrev() {
+fun AnimatedBalanceIncreasePrev() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.White), contentAlignment = Alignment.Center
+            .background(color = Color.White),
+        contentAlignment = Alignment.Center
     ) {
         AnimatedBalanceIncrease(
             colorScheme = ScreenColorScheme()

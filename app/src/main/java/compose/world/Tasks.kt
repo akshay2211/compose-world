@@ -1,47 +1,61 @@
 package compose.world
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Checkbox
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
+import kotlin.time.Duration.Companion.seconds
 
-@Composable
-fun Task() {
-    var selectedIndices by remember { mutableStateOf(setOf<Int>()) }
+data class SomeState(
+    val counterOne: Int = 0,
+    val counterTwo: Int = 0
+)
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        Column (
-            modifier = Modifier
-                .verticalScroll(rememberScrollState())
-        ) {
-            for(i in 0..100) {
-                var isChecked by rememberSaveable { mutableStateOf(false) }
-                Checkbox(
-                    checked = isChecked,
-                    onCheckedChange = {
-                        isChecked = !isChecked
-                    }
-                )
+fun main() {
+
+    val state = MutableStateFlow(SomeState())
+
+    @Synchronized
+    fun setValue(newState: SomeState.() -> SomeState) {
+        val currentState = state.value
+        state.value = newState(currentState)
+    }
+
+    val scope = CoroutineScope(Dispatchers.IO)
+
+//    val stateActor = scope.actor<SomeState> {
+//        for (newState in channel) {
+//            state.update { newState }
+//        }
+//    }
+
+    scope.launch {
+        withTimeout(5.5.seconds) {
+            while (true) {
+                delay(10)
+                val currentState = state.value
+                setValue {
+                    copy(counterOne = currentState.counterOne + 1)
+                }
             }
         }
     }
-}
 
-@Preview (showBackground = true)
-@Composable
-private fun TaskPrev() {
-    Task()
+    scope.launch {
+        withTimeout(5.5.seconds) {
+            while (true) {
+                delay(10)
+                val currentState = state.value
+                setValue {
+                    copy(counterTwo = currentState.counterTwo + 1)
+                }
+            }
+        }
+    }
+
+    Thread.sleep(6000)
+    println(state.value)
 }

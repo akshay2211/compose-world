@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
+import compose.world.composables.animated_balance_increase.AnimatedBalanceIncreasePrev
 import compose.world.composables.animated_navigation_drawer.HorizontalAnimatedNavigationDrawer
 import compose.world.composables.animated_navigation_drawer.VerticalAnimatedNavigationDrawer
 import compose.world.composables.knob_picker.KnobPickerUsageExample
@@ -33,26 +34,8 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            Box {
-                var showHorizontal by remember { mutableStateOf(true) }
-                if (showHorizontal) {
-                    HorizontalAnimatedNavigationDrawer()
-                } else {
-                    VerticalAnimatedNavigationDrawer()
-                }
 
-                Button(
-                    modifier = Modifier.align(Alignment.BottomCenter)
-                        .padding(bottom = 48.dp),
-                    onClick = {
-                    showHorizontal = !showHorizontal
-                }) {
-                    Text(
-                        color = Color.White,
-                        text = "Change mode"
-                    )
-                }
-            }
+            AnimatedBalanceIncreasePrev()
         }
     }
 }
