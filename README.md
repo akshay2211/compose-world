@@ -21,7 +21,7 @@
 ## 6. [Animated navigation drawer](https://github.com/faridGuliyew/compose-world/blob/main/app/src/main/java/compose/world/composables/animated_navigation_drawer)
 ![Animated navigation drawer](https://github.com/user-attachments/assets/5bc76b9b-dbeb-4595-a9a2-f039266a5561)
 
-## 7. ![Compose Ninja](https://github.com/faridGuliyew/compose-world/blob/main/app/src/main/java/compose/world/composables/compose_ninja)
+## 7. [Compose Ninja](https://github.com/faridGuliyew/compose-world/blob/main/app/src/main/java/compose/world/composables/compose_ninja)
 ![Compose Ninja](https://github.com/user-attachments/assets/734adab2-ff9e-42de-83b2-c05dcb1523c0)
 
 
