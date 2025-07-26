@@ -33,19 +33,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import kotlin.math.abs
 
-class ReorderableColumnItemDataWrapper <T> (val data: T)
-
 class ReorderableColumnItem <T> (
     val realIndex: Int,
-    dataWrapper : ReorderableColumnItemDataWrapper<T>
+    data : T
 ) {
     var index by mutableIntStateOf(realIndex)
     var offset by mutableFloatStateOf(0F)
-    private var dataWrapper by mutableStateOf(dataWrapper)
-    val data get() =  dataWrapper.data
+    var data by mutableStateOf(data)
 
     fun updateData(block: T.() -> T) {
-        dataWrapper = ReorderableColumnItemDataWrapper(block(data))
+        data = block(data)
     }
 
     fun updateIndex(newIndex: Int, itemHeight: Int) {
@@ -67,9 +64,9 @@ class ReorderableColumnItem <T> (
 }
 
 val items = listOf(
-    ReorderableColumnItem(0, ReorderableColumnItemDataWrapper(TextItemForPrev("Text one"))),
-    ReorderableColumnItem(1, ReorderableColumnItemDataWrapper(TextItemForPrev("Text two"))),
-    ReorderableColumnItem(2, ReorderableColumnItemDataWrapper(TextItemForPrev("Text three"))),
+    ReorderableColumnItem(0, TextItemForPrev("Text one")),
+    ReorderableColumnItem(1, TextItemForPrev("Text two")),
+    ReorderableColumnItem(2, TextItemForPrev("Text three")),
 )
 
 @Composable

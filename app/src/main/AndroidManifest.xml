@@ -4,6 +4,7 @@
 
     <application
         android:allowBackup="true"
+        android:debuggable="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -13,7 +14,7 @@
         android:theme="@style/Theme.ComposeWorld"
         tools:targetApi="31">
 
-        <receiver android:name=".AlarmBroadcastReceived" />
+<!--        <receiver android:name=".AlarmBroadcastReceived" />-->
 
 
         <activity
