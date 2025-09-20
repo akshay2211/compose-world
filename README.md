@@ -2,9 +2,13 @@
 
 ## Click on the name of the components to view the source code easily!
 
+## 1. [Video editor](https://github.com/faridGuliyew/compose-world/blob/main/app/src/main/java/compose/world/composables/video_editor/Usage.kt)
+
+[//]: # (![Video editor]&#40;https://github.com/user-attachments/assets/bac4620f-2077-48d2-a581-30bb6beef20b&#41;)
+
+
 ## 1. [Customizable chart](https://github.com/faridGuliyew/compose-world/blob/main/app/src/main/java/compose/world/composables/customizable_chart)
 ![Customizable chart](https://github.com/user-attachments/assets/bac4620f-2077-48d2-a581-30bb6beef20b)
-
 
 ## 1. [Card swap](https://github.com/faridGuliyew/compose-world/blob/main/app/src/main/java/compose/world/composables/card_swap/CardSwap.kt)
 ![Card swap](https://github.com/user-attachments/assets/c3ebb0e3-636e-45f3-8e32-1dbfb2d20166)
