@@ -121,14 +121,14 @@ fun ExampleUsage() {
                             fontSize = 16.sp
                         )
                     }
-                    Image(
-                        modifier = Modifier.size(28.dp),
-                        painter = painterResource(R.drawable.ic_draggable),
-                        contentDescription = "drag",
-                        colorFilter = ColorFilter.tint(
-                            color = Color.Gray.copy(0.8F)
-                        )
-                    )
+//                    Image(
+//                        modifier = Modifier.size(28.dp),
+//                        painter = painterResource(R.drawable.ic_draggable),
+//                        contentDescription = "drag",
+//                        colorFilter = ColorFilter.tint(
+//                            color = Color.Gray.copy(0.8F)
+//                        )
+//                    )
                 }
             }
         }
