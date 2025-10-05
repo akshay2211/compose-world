@@ -220,7 +220,7 @@ fun DynamicGraph(state: GraphScreenState) {
 
 @Preview(showBackground = true)
 @Composable
-private fun DynamicGraphPrev() {
+fun DynamicGraphPrev() {
     val nodeA = remember {
         Node(
             title = "A"

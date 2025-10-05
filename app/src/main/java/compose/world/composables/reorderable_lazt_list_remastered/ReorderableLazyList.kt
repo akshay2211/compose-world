@@ -227,7 +227,7 @@ class MyState (text: String) {
 
 @Preview
 @Composable
-private fun ReorderableLazyListUsageExample() {
+fun ReorderableLazyListUsageExample() {
     val dataFlow = MutableStateFlow(listOf(MyState("1"),MyState("1"),MyState("1"),MyState("1")))
     ReorderableLazyList(
         data = rememberReorderableCollection(

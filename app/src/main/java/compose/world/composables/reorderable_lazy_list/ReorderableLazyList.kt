@@ -204,7 +204,7 @@ fun <T: Any> rememberReorderableCollection(
 
 @Preview
 @Composable
-private fun ReorderableLazyListUsageExample() {
+fun ReorderableLazyListUsageExample() {
     ReorderableLazyList(
         data = rememberReorderableCollection(
             collection = listOf(1,2,3,4,5),

@@ -245,7 +245,7 @@ fun <T> swapOrderIfNeeded(
 
 @Preview (showBackground = true)
 @Composable
-private fun DraggableColumnPrev() {
+fun DraggableColumnPrev() {
     var contentHeight by remember {
         mutableFloatStateOf(1f)
     }

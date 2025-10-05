@@ -71,7 +71,7 @@ fun ShimmerText(
 
 @Preview(showBackground = true)
 @Composable
-private fun ShimmerTextPrev() {
+fun ShimmerTextPrev() {
     ShimmerText(
         text = "Searching the web...",
         style = TextStyle(

@@ -46,7 +46,7 @@ import kotlin.time.Duration.Companion.seconds
 
 @Preview(showBackground = true)
 @Composable
-private fun TimelineUsage() {
+fun TimelineUsage() {
     val texts = remember {
         mutableStateListOf(
             TimelineText(

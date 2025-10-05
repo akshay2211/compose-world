@@ -147,7 +147,7 @@ data class TextItemForPrev(
 
 @Preview(showBackground = true)
 @Composable
-private fun ReorderableColumnPrev() {
+fun ReorderableColumnPrev() {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         ReorderableColumn(
             items = items,

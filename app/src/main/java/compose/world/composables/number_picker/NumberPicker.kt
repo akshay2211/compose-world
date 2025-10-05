@@ -133,7 +133,7 @@ fun NumberPicker(
 
 @Preview (showBackground = true)
 @Composable
-private fun IosPickerPrev() {
+fun IosPickerPrev() {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomStart) {
         NumberPicker(
             values = listOf("5","10","15","20","25","30","35","40","45","50","55","60"),

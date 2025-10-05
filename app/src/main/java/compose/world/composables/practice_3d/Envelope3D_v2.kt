@@ -87,7 +87,7 @@ import kotlin.math.abs
 
 @Preview(showBackground = true)
 @Composable
-private fun Practice3DPrev() {
+fun Practice3DPrevV2() {
     val animationDuration = 1000
     var envelopeOffset by remember { mutableStateOf(1500F) }
 

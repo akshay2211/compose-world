@@ -181,7 +181,7 @@ fun AnyLockPattern(
 
 @Preview(showBackground = true)
 @Composable
-private fun LockPatternPrev() {
+fun AnyLockPatternPrev() {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center

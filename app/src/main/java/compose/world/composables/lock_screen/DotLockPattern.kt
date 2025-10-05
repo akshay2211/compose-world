@@ -231,7 +231,7 @@ fun DotLockPattern(
 
 @Preview(showBackground = true)
 @Composable
-private fun LockPatternPrev() {
+fun DotLockPatternPrev() {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center

@@ -86,7 +86,7 @@ fun MotionLikeLayout(
 
 @Preview(showBackground = true)
 @Composable
-private fun MotionLikeLayoutPrev() {
+fun MotionLikeLayoutPrev() {
     var state by remember { mutableStateOf(MotionLikeLayoutState.FULLY_EXPANDED) }
 //    var height by remember { mutableStateOf(200.dp) }
 

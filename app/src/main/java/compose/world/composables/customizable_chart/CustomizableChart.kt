@@ -230,7 +230,7 @@ fun CustomizableChart(
 
 @Preview
 @Composable
-private fun ChartUsage() {
+fun ChartUsage() {
     Column(
         modifier = Modifier
             .fillMaxSize()

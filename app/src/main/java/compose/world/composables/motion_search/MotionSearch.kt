@@ -196,7 +196,7 @@ fun MotionSearch(
 
 @Preview (showBackground = true)
 @Composable
-private fun MotionSearchPrev() {
+fun MotionSearchPrev() {
     var progress by rememberSaveable {
         mutableFloatStateOf(0f)
     }

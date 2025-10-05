@@ -250,7 +250,7 @@ fun DrawScope.coordinates3DAsPath(
 
 @Preview(showBackground = true)
 @Composable
-private fun Practice3DPrev() {
+fun Practice3DPrev() {
     val animationDuration = 1000
     var envelopeOffset by remember { mutableStateOf(1500F) }
 

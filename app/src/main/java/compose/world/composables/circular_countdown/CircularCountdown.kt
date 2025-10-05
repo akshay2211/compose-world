@@ -151,7 +151,7 @@ fun CircularTimer(
 
 @Preview (showBackground = true)
 @Composable
-private fun CircularCountdownPrev() {
+fun CircularCountdownPrev() {
     var timePast by remember { mutableStateOf(0) }
     var progress by remember { mutableStateOf(0F) }
     var isPaused by remember { mutableStateOf(true) }
