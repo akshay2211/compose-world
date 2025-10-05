@@ -1,9 +1,5 @@
 package compose.world.composables.lock_screen
 
-import androidx.compose.animation.core.AnimationSpec
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animate
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,9 +12,7 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,8 +31,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.NonCancellable
-import kotlinx.coroutines.withContext
 
 @Composable
 fun AnyLockPattern(
@@ -68,7 +60,7 @@ fun AnyLockPattern(
             .fillMaxWidth()
             .systemBarsPadding()
             .clip(RectangleShape) // Clip does not allow drawLine command to draw outside the viewport
-            .padding(horizontal = horizontalPadding, vertical = verticalPadding)
+        .padding(horizontal = horizontalPadding, vertical = verticalPadding)
             .height(widgetHeight)
             .width(widgetWidth)
             .drawBehind {
@@ -116,41 +108,36 @@ fun AnyLockPattern(
                 }
             }
             .pointerInput(Unit) {
-                detectDragGestures(
-                    onDragStart = { dragStartCoordinate ->
-                        dragCoordinate = dragStartCoordinate
-                    },
-                    onDragEnd = {
-                        selectedDotCoordinates.clear()
-                    },
-                    onDrag = { _, dragAmount ->
-                        dragCoordinate += dragAmount
+                detectDragGestures(onDragStart = { dragStartCoordinate ->
+                    dragCoordinate = dragStartCoordinate
+                }, onDragEnd = {
+                    selectedDotCoordinates.clear()
+                }, onDrag = { _, dragAmount ->
+                    dragCoordinate += dragAmount
 
-                        val dotRowIndex = findDotHorizontalIndex(
-                            dragCoordinate = dragCoordinate,
-                            dotSize = symbolSize,
-                            rowPadding = rowPadding,
-                            dotSelectionErrorRadius = selectionErrorRadius
-                        )
-                        val dotColumnIndex = findDotVerticalIndex(
-                            dragCoordinate = dragCoordinate,
-                            dotSize = symbolSize,
-                            columnPadding = columnPadding,
-                            dotSelectionErrorRadius = selectionErrorRadius
-                        )
+                    val dotRowIndex = findDotHorizontalIndex(
+                        dragCoordinate = dragCoordinate,
+                        dotSize = symbolSize,
+                        rowPadding = rowPadding,
+                        dotSelectionErrorRadius = selectionErrorRadius
+                    )
+                    val dotColumnIndex = findDotVerticalIndex(
+                        dragCoordinate = dragCoordinate,
+                        dotSize = symbolSize,
+                        columnPadding = columnPadding,
+                        dotSelectionErrorRadius = selectionErrorRadius
+                    )
 
-                        if (dotRowIndex == null || dotColumnIndex == null) return@detectDragGestures
-                        if (dotColumnIndex !in 0 until columnCount) return@detectDragGestures
-                        if (dotRowIndex !in 0 until rowCount) return@detectDragGestures
+                    if (dotRowIndex == null || dotColumnIndex == null) return@detectDragGestures
+                    if (dotColumnIndex !in 0 until columnCount) return@detectDragGestures
+                    if (dotRowIndex !in 0 until rowCount) return@detectDragGestures
 
-                        val dotCoordinate = IntOffset(x = dotRowIndex, y = dotColumnIndex)
-                        if (dotCoordinate in selectedDotCoordinates) return@detectDragGestures
+                    val dotCoordinate = IntOffset(x = dotRowIndex, y = dotColumnIndex)
+                    if (dotCoordinate in selectedDotCoordinates) return@detectDragGestures
 
-                        selectedDotCoordinates.add(dotCoordinate)
-                    }
-                )
-            }
-    ) {
+                    selectedDotCoordinates.add(dotCoordinate)
+                })
+            }) {
         repeat(columnCount) { columnIndex ->
             repeat(rowCount) { rowIndex ->
                 val coordinate = IntOffset(x = rowIndex, y = columnIndex)
@@ -162,14 +149,11 @@ fun AnyLockPattern(
                     modifier = Modifier
                         .size(symbolSize)
                         .offset(
-                            x = symbolSize * rowIndex,
-                            y = symbolSize * columnIndex
+                            x = symbolSize * rowIndex, y = symbolSize * columnIndex
                         ) // Natural offset for row/column behaviour
                         .offset(
-                            x = rowPadding * rowIndex,
-                            y = columnPadding * columnIndex
-                        ),
-                    contentAlignment = Alignment.Center
+                            x = rowPadding * rowIndex, y = columnPadding * columnIndex
+                        ), contentAlignment = Alignment.Center
                 ) {
                     customDotContent(isSelected)
                 }
@@ -183,8 +167,7 @@ fun AnyLockPattern(
 @Composable
 fun AnyLockPatternPrev() {
     Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
     ) {
         AnyLockPattern(
             rowCount = 3,

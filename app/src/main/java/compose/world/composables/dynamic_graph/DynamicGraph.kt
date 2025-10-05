@@ -98,8 +98,7 @@ fun DynamicGraph(state: GraphScreenState) {
                 scaleX = state.globalScale
                 scaleY = state.globalScale
                 rotationZ = state.globalRotation
-            }
-    ) {
+            }) {
         val density = LocalDensity.current
         state.nodes.forEach { node ->
             // used box composable instead of draw line function, to use modifiers
@@ -111,8 +110,7 @@ fun DynamicGraph(state: GraphScreenState) {
                     val endY = (connection.connectedNode?.coordinate?.y ?: 0f) + nodeSize.toPx() / 2
 
                     val lineHeight = hypot(
-                        endX - startX,
-                        endY - startY
+                        endX - startX, endY - startY
                     )  // sqrt((endX - startX).pow(2) + (endY - startY).pow(2))
                     val angle = Math.toDegrees(atan2(endY - startY, endX - startX).toDouble())
                         .toFloat() - 90f // atan2(endY - startY, endX - startX) * (180 / PI).toFloat()
@@ -131,8 +129,7 @@ fun DynamicGraph(state: GraphScreenState) {
                                 delay(100)
                                 state.selectedConnection = connection
                             }
-                        }
-                    )
+                        })
                 }
             }
 
@@ -150,27 +147,22 @@ fun DynamicGraph(state: GraphScreenState) {
 
                     if (state.selectedNode?.connections?.any { it.connectedNode == node } == true) return@NodeWidget
 
-                    state.selectedNode?.connections =
-                        state.selectedNode?.connections?.plus(NodeConnection(
-                            parentNode = state.selectedNode,
-                            connectedNode = node
-                        )).orEmpty()
-                }
-            )
+                    state.selectedNode?.connections = state.selectedNode?.connections?.plus(
+                        NodeConnection(
+                            parentNode = state.selectedNode, connectedNode = node
+                        )
+                    ).orEmpty()
+                })
         }
     }
 
-    ActionsLayer(
-        screenState = state,
-        onOpenAddNodeDialog = {
-            state.dismissDialogs()
-            state.shouldDisplayAddNodeDialog = true
-        },
-        onOpenGeneralSettingsDialog = {
-            state.dismissDialogs()
-            state.shouldDisplayGeneralSettingsDialog = true
-        }
-    )
+    ActionsLayer(screenState = state, onOpenAddNodeDialog = {
+        state.dismissDialogs()
+        state.shouldDisplayAddNodeDialog = true
+    }, onOpenGeneralSettingsDialog = {
+        state.dismissDialogs()
+        state.shouldDisplayGeneralSettingsDialog = true
+    })
 
     DialogLayer(
         isVisible = state.isAnyDialogDisplayed(),
@@ -194,16 +186,14 @@ fun DynamicGraph(state: GraphScreenState) {
             state.selectedConnection != null -> {
 
                 NodeConnectionSettingsDialogContent(
-                    selectedConnection = state.selectedConnection!!,
-                    onRemoveConnection = {
+                    selectedConnection = state.selectedConnection!!, onRemoveConnection = {
                         state.selectedConnection?.let {
                             it.parentNode?.connections =
                                 it.parentNode?.connections?.minus(state.selectedConnection!!)
                                     .orEmpty()
                         }
                         state.dismissDialogs()
-                    }
-                )
+                    })
 
             }
 
@@ -221,21 +211,21 @@ fun DynamicGraph(state: GraphScreenState) {
 @Preview(showBackground = true)
 @Composable
 fun DynamicGraphPrev() {
-    val nodeA = remember {
+    remember {
         Node(
             title = "A"
         ).apply {
             coordinate = Offset(100f, 100f)
         }
     }
-    val nodeB = remember {
+    remember {
         Node(
             title = "B"
         ).apply {
             coordinate = Offset(500f, 100f)
         }
     }
-    val nodeC = remember {
+    remember {
         Node(
             title = "C"
         ).apply {

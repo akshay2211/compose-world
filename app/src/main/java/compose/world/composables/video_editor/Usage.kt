@@ -76,8 +76,7 @@ fun TimelineUsage() {
                 offsetMillis = 0L,
                 verticalLayerIndex = 0,
                 lengthInMillis = 30.seconds.inWholeMilliseconds
-            ),
-            TimelineAudio(
+            ), TimelineAudio(
                 name = "All I Want For Christmas Is You - Mariah Carey",
                 res = "",
                 timelineStartMillis = 250L,
@@ -104,8 +103,7 @@ fun TimelineUsage() {
                 verticalLayerIndex = 0,
                 offsetMillis = 0L,
                 lengthInMillis = 2000L
-            ),
-            TimelineVideo(
+            ), TimelineVideo(
                 res = "",
                 framesRes = listOf(
                     R.drawable.ic_launcher_background,
@@ -127,9 +125,11 @@ fun TimelineUsage() {
         )
     }
 
-    val maxDurationInMillis by remember { derivedStateOf {
-        (videos + audios + texts).maxOfOrNull { it.timelineEndMillis } ?: 1L
-    } }
+    val maxDurationInMillis by remember {
+        derivedStateOf {
+            (videos + audios + texts).maxOfOrNull { it.timelineEndMillis } ?: 1L
+        }
+    }
 
     // These 2 values should be in sync manually (for performance reasons I did not infer one from another)
     var selectedTimelineItemIndex by remember { mutableStateOf<Int?>(null) }
@@ -137,7 +137,7 @@ fun TimelineUsage() {
     //
     val selectedTimelineItemsList by remember {
         derivedStateOf {
-            when(selectedTimelineItemType) {
+            when (selectedTimelineItemType) {
                 TimelineItemType.TEXT -> texts as SnapshotStateList<TimelineItem>
                 TimelineItemType.VIDEO -> videos as SnapshotStateList<TimelineItem>
                 TimelineItemType.AUDIO -> audios as SnapshotStateList<TimelineItem>
@@ -147,13 +147,18 @@ fun TimelineUsage() {
     }
     val horizontalScrollState = rememberScrollState()
 
-    Column(modifier = Modifier.fillMaxSize().background(color = BgBlack)) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .background(color = BgBlack)) {
         // Top part of the screen (above timeline)
-        Column (modifier = Modifier.weight(1F)) {
+        Column(modifier = Modifier.weight(1F)) {
             // Video preview
-            Box (modifier = Modifier.fillMaxWidth().weight(1F)) {
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .weight(1F)) {
                 Image(
-                    modifier = Modifier.fillMaxHeight()
+                    modifier = Modifier
+                        .fillMaxHeight()
                         .align(Alignment.Center),
                     painter = painterResource(R.drawable.thumbnail_demo),
                     contentDescription = null,
@@ -162,7 +167,7 @@ fun TimelineUsage() {
             }
 
             // Video options (play/pause, full screen and etc.)
-            Box (
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 12.dp, horizontal = 16.dp)
@@ -181,8 +186,7 @@ fun TimelineUsage() {
                     initialProgress = 0.5F,
                     onProgressChanged = {
                         WIDTH_PER_MILLISECOND_DP = 0.1 * (it.coerceAtLeast(0.1F) * 10F) / 3F
-                    }
-                )
+                    })
             }
         }
 
@@ -263,43 +267,47 @@ fun TimelineUsage() {
                         )
                     }
                 }
-            }
-        )
+            })
 
         // Timeline options
         val selectedItem = selectedTimelineItemIndex?.run { selectedTimelineItemsList[this] }
         val widthPerMillisecondPx = WIDTH_PER_MILLISECOND_DP.dp.toPx()
         TimelineItemOptionsSection(
-            selectedItem = selectedItem,
-            onOptionSelected = { type, option ->
+            selectedItem = selectedItem, onOptionSelected = { type, option ->
                 // Handle general options
                 if (option in timelineGeneralItemOptions) {
                     when (option) {
                         TimelineItemOption.SPLIT -> {
-                            val playheadCurrentDurationInMillis = (horizontalScrollState.value / widthPerMillisecondPx).toLong()
-                            val isPlayheadAtInvalidPoint = playheadCurrentDurationInMillis.let { it < selectedItem!!.timelineStartMillis || it > selectedItem.timelineEndMillis }
+                            val playheadCurrentDurationInMillis =
+                                (horizontalScrollState.value / widthPerMillisecondPx).toLong()
+                            val isPlayheadAtInvalidPoint =
+                                playheadCurrentDurationInMillis.let { it < selectedItem!!.timelineStartMillis || it > selectedItem.timelineEndMillis }
                             if (isPlayheadAtInvalidPoint) return@TimelineItemOptionsSection
 
 
                             // Shorten the first element.
-                            selectedTimelineItemsList[selectedTimelineItemIndex!!] = selectedItem!!.setEndMillisTo(playheadCurrentDurationInMillis)
+                            selectedTimelineItemsList[selectedTimelineItemIndex!!] =
+                                selectedItem!!.setEndMillisTo(playheadCurrentDurationInMillis)
                             // Duplicate and match other part.
                             selectedTimelineItemsList.add(
-                                selectedItem
-                                    .setStartMillisTo(playheadCurrentDurationInMillis)
+                                selectedItem.setStartMillisTo(playheadCurrentDurationInMillis)
                                     .copy(id = UUID.randomUUID().toString())
                             )
                         }
-                        TimelineItemOption.DUPLICATE -> {
-                            val biggestVerticalIndex = selectedTimelineItemsList.maxOfOrNull { it.verticalLayerIndex } ?: -1
 
-                            val copyItem = selectedItem!!
-                                .dragBy(selectedItem.currentDurationInMillis)
-                                .setLayerTo(biggestVerticalIndex + 1)
-                                .copy(id = UUID.randomUUID().toString())
+                        TimelineItemOption.DUPLICATE -> {
+                            val biggestVerticalIndex =
+                                selectedTimelineItemsList.maxOfOrNull { it.verticalLayerIndex }
+                                    ?: -1
+
+                            val copyItem =
+                                selectedItem!!.dragBy(selectedItem.currentDurationInMillis)
+                                    .setLayerTo(biggestVerticalIndex + 1)
+                                    .copy(id = UUID.randomUUID().toString())
 
                             selectedTimelineItemsList.add(copyItem)
                         }
+
                         TimelineItemOption.DELETE -> {
                             val selectedIndex = selectedTimelineItemIndex!!
                             val selectedList = selectedTimelineItemsList
@@ -307,6 +315,7 @@ fun TimelineUsage() {
                             selectedTimelineItemType = null
                             selectedList.removeAt(selectedIndex)
                         }
+
                         else -> Unit
                     }
                     return@TimelineItemOptionsSection
@@ -318,14 +327,15 @@ fun TimelineUsage() {
                             else -> error("Unsupported option $option for item $selectedTimelineItemType!!")
                         }
                     }
+
                     TimelineItemType.VIDEO -> {
 
                     }
+
                     TimelineItemType.AUDIO -> {
 
                     }
                 }
-            }
-        )
+            })
     }
 }

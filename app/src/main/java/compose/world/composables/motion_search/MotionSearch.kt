@@ -17,7 +17,6 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -41,60 +40,59 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMotionApi::class)
 @Composable
 fun MotionSearch(
-    modifier: Modifier,
-    progress: Float
+    modifier: Modifier, progress: Float
 ) {
     val animatedProgress by animateFloatAsState(
         targetValue = progress, label = "motion_progress"
     )
-    Box(modifier = Modifier.fillMaxSize()
-        .background(color = Color.Black)) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = Color.Black)
+    ) {
         MotionLayout(
-            modifier = modifier,
-            start = ConstraintSet {
-                val topPart = createRefFor("top")
-                val bottomPart = createRefFor("bottom")
+            modifier = modifier, start = ConstraintSet {
+            val topPart = createRefFor("top")
+            val bottomPart = createRefFor("bottom")
 
-                constrain(topPart) {
-                    bottom.linkTo(parent.top)
+            constrain(topPart) {
+                bottom.linkTo(parent.top)
 //                    top.linkTo(parent.top)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
 //                    this.verticalBias = 0f
-                    height = Dimension.wrapContent
-                    width = Dimension.matchParent
-                }
+                height = Dimension.wrapContent
+                width = Dimension.matchParent
+            }
 
-                constrain(bottomPart) {
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                    height = 100.dp.asDimension()
-                    width = Dimension.matchParent
-                }
-            },
-            end = ConstraintSet {
-                val topPart = createRefFor("top")
-                val bottomPart = createRefFor("bottom")
+            constrain(bottomPart) {
+                bottom.linkTo(parent.bottom)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+                height = 100.dp.asDimension()
+                width = Dimension.matchParent
+            }
+        }, end = ConstraintSet {
+            val topPart = createRefFor("top")
+            val bottomPart = createRefFor("bottom")
 
-                constrain(topPart) {
-                    top.linkTo(parent.top)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                    height = Dimension.wrapContent
-                    width = Dimension.matchParent
-                }
+            constrain(topPart) {
+                top.linkTo(parent.top)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+                height = Dimension.wrapContent
+                width = Dimension.matchParent
+            }
 
-                constrain(bottomPart) {
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                    top.linkTo(topPart.bottom)
-                    height = Dimension.fillToConstraints
-                    width = Dimension.matchParent
-                }
-            },
-            progress = animatedProgress
+            constrain(bottomPart) {
+                bottom.linkTo(parent.bottom)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+                top.linkTo(topPart.bottom)
+                height = Dimension.fillToConstraints
+                width = Dimension.matchParent
+            }
+        }, progress = animatedProgress
         ) {
             Box(
                 modifier = Modifier
@@ -123,8 +121,7 @@ fun MotionSearch(
                             Text("Enter an address")
                         },
                         shape = RoundedCornerShape(16.dp),
-                        colors = TextFieldDefaults
-                            .colors(
+                        colors = TextFieldDefaults.colors(
                                 focusedIndicatorColor = Color.Transparent,
                                 unfocusedIndicatorColor = Color.Transparent
                             )
@@ -140,8 +137,7 @@ fun MotionSearch(
                             Text("Enter an address")
                         },
                         shape = RoundedCornerShape(16.dp),
-                        colors = TextFieldDefaults
-                            .colors(
+                        colors = TextFieldDefaults.colors(
                                 focusedIndicatorColor = Color.Transparent,
                                 unfocusedIndicatorColor = Color.Transparent
                             )
@@ -152,10 +148,11 @@ fun MotionSearch(
             Box(
                 modifier = Modifier
                     .layoutId("bottom")
-                    .clip(RoundedCornerShape(
-                        topStart = 16.dp * (1f - progress),
-                        topEnd = 16.dp * (1f - progress)
-                    ))
+                    .clip(
+                        RoundedCornerShape(
+                            topStart = 16.dp * (1f - progress), topEnd = 16.dp * (1f - progress)
+                        )
+                    )
                     .background(color = Color.White)
             ) {
                 if (progress < 1f) {
@@ -171,8 +168,7 @@ fun MotionSearch(
                             Text("Enter an address")
                         },
                         shape = RoundedCornerShape(16.dp),
-                        colors = TextFieldDefaults
-                            .colors(
+                        colors = TextFieldDefaults.colors(
                                 focusedIndicatorColor = Color.Transparent,
                                 unfocusedIndicatorColor = Color.Transparent
                             )
@@ -180,7 +176,8 @@ fun MotionSearch(
                 }
                 if (progress > 0.5f) {
                     Text(
-                        modifier = Modifier.padding(32.dp)
+                        modifier = Modifier
+                            .padding(32.dp)
                             .alpha((progress - 0.5f) * 2),
                         text = "Search results",
                         color = Color.Black,
@@ -194,7 +191,7 @@ fun MotionSearch(
 }
 
 
-@Preview (showBackground = true)
+@Preview(showBackground = true)
 @Composable
 fun MotionSearchPrev() {
     var progress by rememberSaveable {
@@ -205,8 +202,7 @@ fun MotionSearchPrev() {
         modifier = Modifier
             .fillMaxSize()
             .pointerInput(Unit) {
-            detectVerticalDragGestures(
-                onDragEnd = {
+                detectVerticalDragGestures(onDragEnd = {
                     scope.launch {
                         if (progress < 0.5f) {
                             progress = 0f
@@ -214,14 +210,11 @@ fun MotionSearchPrev() {
                             progress = 1f
                         }
                     }
-                },
-                onVerticalDrag = { _, dragAmount ->
+                }, onVerticalDrag = { _, dragAmount ->
                     scope.launch {
                         progress = (progress - dragAmount / 100f).coerceIn(0f, 1f)
                     }
-                }
-            )
-        },
-        progress = progress
+                })
+            }, progress = progress
     )
 }

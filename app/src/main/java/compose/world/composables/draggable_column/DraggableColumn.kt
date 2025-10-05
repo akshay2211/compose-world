@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,7 +22,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
@@ -33,7 +30,6 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -54,21 +50,21 @@ import androidx.compose.ui.zIndex
  * @property isBeingDragged Indicates whether the item is currently being dragged.
  */
 
-class DraggableItemState <T> (
-    index: Int,
-    val data : T
+class DraggableItemState<T>(
+    index: Int, val data: T
 ) {
     // actual order - meaning before drag order of the element.
     var beforeDragOrder by mutableIntStateOf(index)
     private var logicalOrder by mutableIntStateOf(index)
     fun increaseLogicalOrder() {
-        logicalOrder +=1
+        logicalOrder += 1
         if (!isBeingDragged) {
             beforeDragOrder = logicalOrder
         }
     }
+
     fun decreaseLogicalOrder() {
-        logicalOrder -=1
+        logicalOrder -= 1
         if (!isBeingDragged) {
             beforeDragOrder = logicalOrder
         }
@@ -87,9 +83,9 @@ class DraggableItemState <T> (
 @Composable
 fun <T> rememberDraggableItemStates(
     items: List<T>
-) : List<DraggableItemState<T>> {
+): List<DraggableItemState<T>> {
     return remember {
-        items.mapIndexed { index, data->
+        items.mapIndexed { index, data ->
             DraggableItemState(index, data)
         }
     }
@@ -117,7 +113,7 @@ fun <T> rememberDraggableItemStates(
 fun <T> DraggableContent(
     itemHeightPx: Float,
     draggableItems: List<DraggableItemState<T>>,
-    initialComposable : @Composable (visualModifier: Modifier, dragModifier: Modifier, state: DraggableItemState<T>) -> Unit,
+    initialComposable: @Composable (visualModifier: Modifier, dragModifier: Modifier, state: DraggableItemState<T>) -> Unit,
     draggedComposable: @Composable (visualModifier: Modifier, state: DraggableItemState<T>) -> Unit,
     dragRotation: Float
 ) {
@@ -128,46 +124,40 @@ fun <T> DraggableContent(
                     initialComposable(Modifier, Modifier, it)
                 }
             }
-        },
-        dependentContent = {
+        }, dependentContent = {
             val density = LocalDensity.current
-            var draggedState : DraggableItemState<T>? by remember {
+            var draggedState: DraggableItemState<T>? by remember {
                 mutableStateOf(null)
             }
 
-            Box (
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     // wrap content
                     .height(
-                        height = density.run { it.toDpSize().height }
-                    )
-                    .border(color = Color.Black, width = 2.dp)
-            ) {
-                draggableItems.forEach { state->
+                        height = density.run { it.toDpSize().height })
+                    .border(color = Color.Black, width = 2.dp)) {
+                draggableItems.forEach { state ->
                     val animatedYOffset by animateIntAsState((state.beforeDragOrder * itemHeightPx + state.offsetY).toInt())
 
                     initialComposable(
-                        Modifier.graphicsLayer {
-                            alpha = if (state.isBeingDragged) 0f else 1f
-                        }
+                        Modifier
+                            .graphicsLayer {
+                                alpha = if (state.isBeingDragged) 0f else 1f
+                            }
                             .offset {
                                 IntOffset(x = 0, y = animatedYOffset)
-                            },
-                        Modifier.pointerInput(itemHeightPx) {
-                            detectVerticalDragGestures(
-                                onDragStart = {
-                                    state.isBeingDragged = true
-                                    state.beforeDragOrder = state.readLogicalOrder()
-                                    draggedState = state
-                                },
-                                onDragEnd = {
-                                    state.isBeingDragged = false
-                                    state.beforeDragOrder = state.readLogicalOrder()
-                                    state.offsetY = 0
-                                    draggedState = null
-                                }
-                            ) { _, dragAmount ->
+                            }, Modifier.pointerInput(itemHeightPx) {
+                            detectVerticalDragGestures(onDragStart = {
+                                state.isBeingDragged = true
+                                state.beforeDragOrder = state.readLogicalOrder()
+                                draggedState = state
+                            }, onDragEnd = {
+                                state.isBeingDragged = false
+                                state.beforeDragOrder = state.readLogicalOrder()
+                                state.offsetY = 0
+                                draggedState = null
+                            }) { _, dragAmount ->
                                 state.offsetY += dragAmount.toInt()
                                 swapOrderIfNeeded(
                                     itemHeightPx = itemHeightPx,
@@ -176,8 +166,7 @@ fun <T> DraggableContent(
                                     thresholdPercentage = 0.5f
                                 )
                             }
-                        },
-                        state
+                        }, state
                     )
                 }
                 draggedState?.let {
@@ -185,18 +174,19 @@ fun <T> DraggableContent(
                         Modifier
                             .zIndex(10f)
                             .offset {
-                                IntOffset(x = 0, y = (it.beforeDragOrder * itemHeightPx + it.offsetY).toInt())
+                                IntOffset(
+                                    x = 0,
+                                    y = (it.beforeDragOrder * itemHeightPx + it.offsetY).toInt()
+                                )
                             }
                             .graphicsLayer {
                                 transformOrigin = TransformOrigin.Center
                                 rotationZ = dragRotation
-                            },
-                        it
+                            }, it
                     )
                 }
             }
-        },
-        placeMainContent = false
+        }, placeMainContent = false
     )
 }
 
@@ -217,13 +207,16 @@ fun <T> swapOrderIfNeeded(
     itemHeightPx: Float,
     draggedState: DraggableItemState<T>,
     otherStates: List<DraggableItemState<T>>,
-    @FloatRange(0.0,1.0) thresholdPercentage: Float = 0.5f
+    @FloatRange(0.0, 1.0) thresholdPercentage: Float = 0.5f
 ) {
     val currentLogicalOrder = draggedState.readLogicalOrder()
     // We need to calculate it based on its on drag start top position! Otherwise result will be inaccurate. Because, when order changes from 0 to 1, it is not actually arrived at order 1 yet, it still has some more way to go, so inaccurate result!
-    val currentItemInitialTopPosition = draggedState.beforeDragOrder * itemHeightPx + draggedState.offsetY
-    val nextItemTopPosition = (currentLogicalOrder + 1) * itemHeightPx + itemHeightPx * thresholdPercentage
-    val prevItemTopPosition = (currentLogicalOrder - 1) * itemHeightPx + itemHeightPx * thresholdPercentage
+    val currentItemInitialTopPosition =
+        draggedState.beforeDragOrder * itemHeightPx + draggedState.offsetY
+    val nextItemTopPosition =
+        (currentLogicalOrder + 1) * itemHeightPx + itemHeightPx * thresholdPercentage
+    val prevItemTopPosition =
+        (currentLogicalOrder - 1) * itemHeightPx + itemHeightPx * thresholdPercentage
 
     // CHECK IF ITEM EXCEED THE NEXT ONE'S TOP POSITION
     if (currentItemInitialTopPosition > nextItemTopPosition) {
@@ -243,27 +236,35 @@ fun <T> swapOrderIfNeeded(
     }
 }
 
-@Preview (showBackground = true)
+@Preview(showBackground = true)
 @Composable
 fun DraggableColumnPrev() {
     var contentHeight by remember {
         mutableFloatStateOf(1f)
     }
-    val density = LocalDensity.current
+    LocalDensity.current
     Box(modifier = Modifier.fillMaxSize()) {
         DraggableContent(
             itemHeightPx = contentHeight,
             dragRotation = 0f,
-            draggableItems = rememberDraggableItemStates(listOf("Hello", "World", "This", "is", "draggable","column")),
+            draggableItems = rememberDraggableItemStates(
+                listOf(
+                    "Hello",
+                    "World",
+                    "This",
+                    "is",
+                    "draggable",
+                    "column"
+                )
+            ),
             initialComposable = { visualModifier, dragModifier, state ->
-                Column (
-                    modifier = visualModifier.then(dragModifier)
+                Column(
+                    modifier = visualModifier
+                        .then(dragModifier)
                         .then(
                             Modifier.onSizeChanged {
                                 contentHeight = it.height.toFloat()
-                            }
-                        )
-                ) {
+                            })) {
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -276,7 +277,7 @@ fun DraggableColumnPrev() {
                 }
             },
             draggedComposable = { modifier, state ->
-                Column (
+                Column(
                     modifier = modifier
                 ) {
                     Text(
@@ -289,7 +290,6 @@ fun DraggableColumnPrev() {
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                 }
-            }
-        )
+            })
     }
 }

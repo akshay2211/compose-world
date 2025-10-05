@@ -1,6 +1,5 @@
 package compose.world.composables.lock_screen
 
-import androidx.annotation.FloatRange
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animate
@@ -19,8 +18,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -29,23 +26,15 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.DrawScope.Companion.DefaultBlendMode
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
@@ -65,12 +54,10 @@ fun DotLockPattern(
     selectedDotColor: Color = Color.White,
     unselectedDotColor: Color = Color.Black,
     selectionEnterAnimationSpec: AnimationSpec<Float> = spring(
-        dampingRatio = Spring.DampingRatioHighBouncy,
-        stiffness = Spring.StiffnessMedium
+        dampingRatio = Spring.DampingRatioHighBouncy, stiffness = Spring.StiffnessMedium
     ),
     selectionExitAnimationSpec: AnimationSpec<Float> = spring(
-        dampingRatio = Spring.DampingRatioLowBouncy,
-        stiffness = Spring.StiffnessMedium
+        dampingRatio = Spring.DampingRatioLowBouncy, stiffness = Spring.StiffnessMedium
     ),
     lineParams: LineParams = LineParams()
 ) {
@@ -90,7 +77,7 @@ fun DotLockPattern(
             .fillMaxWidth()
             .systemBarsPadding()
             .clip(RectangleShape) // Clip does not allow drawLine command to draw outside the viewport
-            .padding(horizontal = horizontalPadding, vertical = verticalPadding)
+        .padding(horizontal = horizontalPadding, vertical = verticalPadding)
             .height(widgetHeight)
             .width(widgetWidth)
             .drawBehind {
@@ -138,41 +125,36 @@ fun DotLockPattern(
                 }
             }
             .pointerInput(Unit) {
-                detectDragGestures(
-                    onDragStart = { dragStartCoordinate ->
-                        dragCoordinate = dragStartCoordinate
-                    },
-                    onDragEnd = {
-                        selectedDotCoordinates.clear()
-                    },
-                    onDrag = { _, dragAmount ->
-                        dragCoordinate += dragAmount
+                detectDragGestures(onDragStart = { dragStartCoordinate ->
+                    dragCoordinate = dragStartCoordinate
+                }, onDragEnd = {
+                    selectedDotCoordinates.clear()
+                }, onDrag = { _, dragAmount ->
+                    dragCoordinate += dragAmount
 
-                        val dotRowIndex = findDotHorizontalIndex(
-                            dragCoordinate = dragCoordinate,
-                            dotSize = dotSize,
-                            rowPadding = rowPadding,
-                            dotSelectionErrorRadius = selectionErrorRadius
-                        )
-                        val dotColumnIndex = findDotVerticalIndex(
-                            dragCoordinate = dragCoordinate,
-                            dotSize = dotSize,
-                            columnPadding = columnPadding,
-                            dotSelectionErrorRadius = selectionErrorRadius
-                        )
+                    val dotRowIndex = findDotHorizontalIndex(
+                        dragCoordinate = dragCoordinate,
+                        dotSize = dotSize,
+                        rowPadding = rowPadding,
+                        dotSelectionErrorRadius = selectionErrorRadius
+                    )
+                    val dotColumnIndex = findDotVerticalIndex(
+                        dragCoordinate = dragCoordinate,
+                        dotSize = dotSize,
+                        columnPadding = columnPadding,
+                        dotSelectionErrorRadius = selectionErrorRadius
+                    )
 
-                        if (dotRowIndex == null || dotColumnIndex == null) return@detectDragGestures
-                        if (dotColumnIndex !in 0 until columnCount) return@detectDragGestures
-                        if (dotRowIndex !in 0 until rowCount) return@detectDragGestures
+                    if (dotRowIndex == null || dotColumnIndex == null) return@detectDragGestures
+                    if (dotColumnIndex !in 0 until columnCount) return@detectDragGestures
+                    if (dotRowIndex !in 0 until rowCount) return@detectDragGestures
 
-                        val dotCoordinate = IntOffset(x = dotRowIndex, y = dotColumnIndex)
-                        if (dotCoordinate in selectedDotCoordinates) return@detectDragGestures
+                    val dotCoordinate = IntOffset(x = dotRowIndex, y = dotColumnIndex)
+                    if (dotCoordinate in selectedDotCoordinates) return@detectDragGestures
 
-                        selectedDotCoordinates.add(dotCoordinate)
-                    }
-                )
-            }
-    ) {
+                    selectedDotCoordinates.add(dotCoordinate)
+                })
+            }) {
         repeat(columnCount) { columnIndex ->
             repeat(rowCount) { rowIndex ->
                 val coordinate = IntOffset(x = rowIndex, y = columnIndex)
@@ -207,22 +189,19 @@ fun DotLockPattern(
                     modifier = Modifier
                         .size(dotSize)
                         .offset(
-                            x = dotSize * rowIndex,
-                            y = dotSize * columnIndex
+                            x = dotSize * rowIndex, y = dotSize * columnIndex
                         ) // Natural offset for row/column behaviour
-                        .offset(
-                            x = rowPadding * rowIndex,
-                            y = columnPadding * columnIndex
-                        ) // Horizontal/Vertical padding
-                        .graphicsLayer {
-                            scaleX = animatedScale
-                            scaleY = animatedScale
-                        }
+                    .offset(
+                        x = rowPadding * rowIndex, y = columnPadding * columnIndex
+                    ) // Horizontal/Vertical padding
+                    .graphicsLayer {
+                        scaleX = animatedScale
+                        scaleY = animatedScale
+                    }
                         .background(
                             color = if (isSelected) selectedDotColor else unselectedDotColor,
                             shape = CircleShape
-                        )
-                )
+                        ))
 
             }
         }
@@ -233,8 +212,7 @@ fun DotLockPattern(
 @Composable
 fun DotLockPatternPrev() {
     Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center
+        modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center
     ) {
         DotLockPattern(
             rowCount = 3,

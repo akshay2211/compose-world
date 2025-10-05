@@ -1,38 +1,43 @@
 package compose.world.composables.practice_3d
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import compose.world.R
 import kotlinx.coroutines.delay
@@ -67,26 +72,21 @@ val topCoordinates = listOf(
     Point3D(0F, -5F, -5F),
 //    Point3D(-10F, -10F, 5F),
 
-    Point3D(-10F, 0F, 5F),
-    Point3D(10F, 0F, 5F)
+    Point3D(-10F, 0F, 5F), Point3D(10F, 0F, 5F)
 )
 
 val bottomCoordinates = listOf(
-    Point3D(10F, 10F, 5F),
-    Point3D(-10F, 10F, 5F),
+    Point3D(10F, 10F, 5F), Point3D(-10F, 10F, 5F),
 
-    Point3D(-10F, 0F, 5F),
-    Point3D(10F, 0F, 5F)
+    Point3D(-10F, 0F, 5F), Point3D(10F, 0F, 5F)
 )
 
 @Composable
 fun Envelope3D(
-    modifier: Modifier,
-    progress: Float,
-    onTopGlobalCoordinate: (Offset) -> Unit
+    modifier: Modifier, progress: Float, onTopGlobalCoordinate: (Offset) -> Unit
 ) {
 
-    Box (
+    Box(
         modifier = modifier
     ) {
         Canvas(
@@ -106,11 +106,9 @@ fun Envelope3D(
                 .height(75.dp)
                 .onGloballyPositioned {
                     onTopGlobalCoordinate.invoke(it.positionInRoot())
-                }
-        ) {
+                }) {
             drawPath(
-                path = coordinates3DAsPath(coordinates = topCoordinates),
-                color = Color(0xFF00BBBB)
+                path = coordinates3DAsPath(coordinates = topCoordinates), color = Color(0xFF00BBBB)
             )
         }
     }
@@ -224,17 +222,14 @@ fun DrawScope.coordinates3DAsPath(
     distance: Float = 100F,
 ): Path {
     val path = Path().apply {
-        val firstCoordinate2D =
-            coordinates[0].to2D(distance, size.width / 2, 0F)
+        val firstCoordinate2D = coordinates[0].to2D(distance, size.width / 2, 0F)
         moveTo(firstCoordinate2D.x, firstCoordinate2D.y)
 
         for (i in 1..coordinates.lastIndex) {
-            val point2D =
-                coordinates[i].to2D(distance, size.width / 2, 0F)
+            val point2D = coordinates[i].to2D(distance, size.width / 2, 0F)
 
             lineTo(
-                x = point2D.x,
-                y = point2D.y
+                x = point2D.x, y = point2D.y
             )
         }
     }
@@ -256,20 +251,17 @@ fun Practice3DPrev() {
 
     var messageOffset by remember { mutableStateOf(0F) }
     val animatedMessageOffset by animateFloatAsState(
-        targetValue = messageOffset,
-        animationSpec = tween(animationDuration)
+        targetValue = messageOffset, animationSpec = tween(animationDuration)
     )
     var envelopeTopCoordinate by remember { mutableStateOf(Offset.Zero) }
     var textFieldTopCoordinate by remember { mutableStateOf(Offset.Zero) }
     var envelopeProgress by remember { mutableStateOf(-1F) }
     val animatedEnvelopeProgress by animateFloatAsState(
-        targetValue = envelopeProgress,
-        animationSpec = tween(animationDuration * 2)
+        targetValue = envelopeProgress, animationSpec = tween(animationDuration * 2)
     )
     var textFieldOffset by remember { mutableStateOf(0F) }
     val animatedTextFieldOffset by animateFloatAsState(
-        targetValue = textFieldOffset,
-        animationSpec = tween(animationDuration)
+        targetValue = textFieldOffset, animationSpec = tween(animationDuration)
     )
 
     Column(
@@ -287,14 +279,10 @@ fun Practice3DPrev() {
         val scope = rememberCoroutineScope()
 
 
-        val textFieldWidthScale by animateFloatAsState(
-            targetValue = if (isSent) (density.run { 150.dp.toPx() } / textFieldWidth) else 1F,
-            animationSpec = tween(animationDuration)
-        )
-        val textFieldHeightScale by animateFloatAsState(
-            targetValue = if (isSent) (density.run { 75.dp.toPx() } / textFieldHeight) else 1F,
-            animationSpec = tween(animationDuration)
-        )
+        val textFieldWidthScale by animateFloatAsState(targetValue = if (isSent) (density.run { 150.dp.toPx() } / textFieldWidth) else 1F,
+            animationSpec = tween(animationDuration))
+        val textFieldHeightScale by animateFloatAsState(targetValue = if (isSent) (density.run { 75.dp.toPx() } / textFieldHeight) else 1F,
+            animationSpec = tween(animationDuration))
 
         TextField(
             modifier = Modifier
@@ -303,66 +291,55 @@ fun Practice3DPrev() {
                 .graphicsLayer {
                     scaleX = textFieldWidthScale
                     scaleY = textFieldHeightScale
-                    translationY = animatedTextFieldOffset - ((1 - textFieldHeightScale) * textFieldHeight / 2) // - 100.dp.toPx()
+                    translationY =
+                        animatedTextFieldOffset - ((1 - textFieldHeightScale) * textFieldHeight / 2) // - 100.dp.toPx()
                     translationX = animatedMessageOffset
                 }
                 .onGloballyPositioned {
                     textFieldTopCoordinate = it.positionInRoot()
                     textFieldWidth = it.size.width.toFloat()
                     textFieldHeight = it.size.height.toFloat()
-                },
-            value = text,
-            placeholder = {
-                Text(
-                    text = "Type your message here...",
-                    fontFamily = FontFamily(
-                        Font(R.font.lobster_regular, weight = FontWeight.Normal)
-                    ),
-                    fontSize = 24.sp
-                )
-            },
-            onValueChange = {
-                text = it
-            },
-            textStyle = TextStyle(
-                fontFamily = FontFamily(
+                }, value = text, placeholder = {
+            Text(
+                text = "Type your message here...", fontFamily = FontFamily(
                     Font(R.font.lobster_regular, weight = FontWeight.Normal)
-                ),
-                fontSize = 24.sp
-            ),
-            colors = TextFieldDefaults.colors(
-                unfocusedIndicatorColor = Color.Transparent,
-                focusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
-                errorIndicatorColor = Color.Transparent
+                ), fontSize = 24.sp
             )
+        }, onValueChange = {
+            text = it
+        }, textStyle = TextStyle(
+            fontFamily = FontFamily(
+                Font(R.font.lobster_regular, weight = FontWeight.Normal)
+            ), fontSize = 24.sp
+        ), colors = TextFieldDefaults.colors(
+            unfocusedIndicatorColor = Color.Transparent,
+            focusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
+            errorIndicatorColor = Color.Transparent
+        )
         )
 
         Spacer(modifier = Modifier.height(80.dp))
 
-        Button(
-            modifier = Modifier
-                .graphicsLayer {
-                    alpha = if (isSent) 0F else 1F
-                },
-            onClick = {
-                scope.launch {
-                    isSent = true
-                    delay(animationDuration.toLong())
-                    envelopeOffset = 0F
-                    delay(animationDuration.toLong() / 3)
-                    textFieldOffset = textFieldTopCoordinate.y - envelopeTopCoordinate.y - density.run { 100.dp.toPx() }
-                    delay(animationDuration.toLong())
-                    envelopeProgress = 1F
-                    delay(animationDuration.toLong())
-                    envelopeOffset = 1000F
-                    messageOffset = 1000F
-                }
+        Button(modifier = Modifier.graphicsLayer {
+                alpha = if (isSent) 0F else 1F
+            }, onClick = {
+            scope.launch {
+                isSent = true
+                delay(animationDuration.toLong())
+                envelopeOffset = 0F
+                delay(animationDuration.toLong() / 3)
+                textFieldOffset =
+                    textFieldTopCoordinate.y - envelopeTopCoordinate.y - density.run { 100.dp.toPx() }
+                delay(animationDuration.toLong())
+                envelopeProgress = 1F
+                delay(animationDuration.toLong())
+                envelopeOffset = 1000F
+                messageOffset = 1000F
             }
-        ) {
+        }) {
             Text(
-                modifier = Modifier
-                    .padding(horizontal = 18.dp, vertical = 6.dp),
+                modifier = Modifier.padding(horizontal = 18.dp, vertical = 6.dp),
                 text = "Send",
                 fontSize = 16.sp
             )
@@ -371,19 +348,13 @@ fun Practice3DPrev() {
         Spacer(modifier = Modifier.height(120.dp))
 
         val envelopeAnimatedOffset by animateFloatAsState(
-            targetValue = envelopeOffset,
-            animationSpec = tween(animationDuration)
+            targetValue = envelopeOffset, animationSpec = tween(animationDuration)
         )
 
-        Envelope3D(
-            modifier = Modifier
-                .graphicsLayer {
-                    translationX = envelopeAnimatedOffset
-                },
-            progress = animatedEnvelopeProgress,
-            onTopGlobalCoordinate = {
-                textFieldTopCoordinate = it
-            }
-        )
+        Envelope3D(modifier = Modifier.graphicsLayer {
+                translationX = envelopeAnimatedOffset
+            }, progress = animatedEnvelopeProgress, onTopGlobalCoordinate = {
+            textFieldTopCoordinate = it
+        })
     }
 }
